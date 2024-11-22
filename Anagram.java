@@ -1,3 +1,5 @@
+import java.util.Random;
+
 /** Functions for checking if a given string is an anagram. */
 public class Anagram {
 	public static void main(String args[]) {
@@ -28,22 +30,53 @@ public class Anagram {
 
 	// Returns true if the two given strings are anagrams, false otherwise.
 	public static boolean isAnagram(String str1, String str2) {
-		// Replace the following statement with your code
-		return false;
+		str1 = preProcess(str1);
+		str2 = preProcess(str2);
+		str1 = str1.replace(" ", "");
+		str2 = str2.replace(" ", "");
+
+		if (str1.length() != str2.length()) {
+			return false;
+		}
+		while (str1.length() > 0 && str2.length() > 0) {
+			int randomIndex = (int) (Math.random() * str1.length());
+			char charAtIndex = str1.charAt(randomIndex);
+			int charIndexStr2 = str2.indexOf(charAtIndex);
+	
+			if (str2.indexOf(charAtIndex) == -1) {
+				return false;
+			}
+			str1 = str1.substring(0, randomIndex) + str1.substring(randomIndex + 1);
+			str2 = str2.substring(0, charIndexStr2) + str2.substring(charIndexStr2 + 1);
+		}
+		return true;
 	}
 	   
-	// Returns a preprocessed version of the given string: all the letter characters are converted
-	// to lower-case, and all the other characters are deleted, except for spaces, which are left
-	// as is. For example, the string "What? No way!" becomes "whatnoway"
+	// Returns a string with no special letters, just characters in lower case.
 	public static String preProcess(String str) {
-		// Replace the following statement with your code
-		return "";
-	} 
-	   
-	// Returns a random anagram of the given string. The random anagram consists of the same
-	// characters as the given string, re-arranged in a random order. 
-	public static String randomAnagram(String str) {
-		// Replace the following statement with your code
-		return "";
+		String finalString = "";
+		int strLength = str.length();
+		for (int i = 0; i < strLength; i++) {
+			char currentChar = str.charAt(i);
+			if (Character.isLetter(currentChar)) {
+				finalString += Character.toLowerCase(currentChar);
+			} else if (currentChar == ' ') { // Retain spaces
+				finalString += currentChar;
+			}
+		}
+		return finalString;
 	}
+	   
+    // Returns a random anagram for the string received.
+    public static String randomAnagram(String str) {
+        String finalString = "";
+        String inputString = str;
+        Random generateRandom = new Random();
+        while (!inputString.isEmpty()) {
+            int randomIndex = generateRandom.nextInt(inputString.length());
+            finalString += inputString.charAt(randomIndex);
+            inputString = inputString.substring(0, randomIndex) + inputString.substring(randomIndex + 1);
+        }
+        return finalString;
+    }
 }
