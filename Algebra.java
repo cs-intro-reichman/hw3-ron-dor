@@ -28,19 +28,22 @@ public class Algebra {
 	// Returns x1 + x2.
 	public static int plus(int x1, int x2) {
 		int result = x1;
-		for (int i = 0; i < x2; i++) {
-			result++;
+		if (x2 > 0) {
+			for (int i = 0; i < x2; i++) {
+				result++;
+			}
+		} else if (x2 < 0) {
+			int x2Positive = negate(x2);
+			for (int i = 0; i < x2Positive; i++) {
+				result--;
+			}
 		}
 		return result;
 	}
 
 	// Returns x1 - x2.
 	public static int minus(int x1, int x2) {
-		int result = x1;
-		for (int i = 0; i < x2; i++) {
-			result--;
-		}
-		return result;
+		return plus(x1, negate(x2));
 	}
 	
 	// Return -(num).
