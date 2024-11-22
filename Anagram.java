@@ -32,22 +32,27 @@ public class Anagram {
 	public static boolean isAnagram(String str1, String str2) {
 		str1 = preProcess(str1);
 		str2 = preProcess(str2);
+		str1 = str1.replace(" ", "");
+		str2 = str2.replace(" ", "");
+
 		if (str1.length() != str2.length()) {
 			return false;
 		}
-		int strLength = str1.length();
-		for (int i = 0; i < strLength; i++) {
-			char currentChar = str1.charAt(i);
-			int indexInLatter = str2.indexOf(currentChar);
-			if (indexInLatter == -1) {
+		while (str1.length() > 0 && str2.length() > 0) {
+			int randomIndex = (int) (Math.random() * str1.length());
+			char charAtIndex = str1.charAt(randomIndex);
+			int charIndexStr2 = str2.indexOf(charAtIndex);
+	
+			if (str2.indexOf(charAtIndex) == -1) {
 				return false;
 			}
-			str2 = str2.substring(0, indexInLatter) + str2.substring(indexInLatter + 1);
+			str1 = str1.substring(0, randomIndex) + str1.substring(randomIndex + 1);
+			str2 = str2.substring(0, charIndexStr2) + str2.substring(charIndexStr2 + 1);
 		}
 		return true;
 	}
 	   
-	// Returns a string with no spaces, no special letters, just characters in lower case.
+	// Returns a string with no special letters, just characters in lower case.
 	public static String preProcess(String str) {
 		String finalString = "";
 		int strLength = str.length();
@@ -55,10 +60,12 @@ public class Anagram {
 			char currentChar = str.charAt(i);
 			if (Character.isLetter(currentChar)) {
 				finalString += Character.toLowerCase(currentChar);
+			} else if (currentChar == ' ') { // Retain spaces
+				finalString += currentChar;
 			}
 		}
 		return finalString;
-	} 
+	}
 	   
     // Returns a random anagram for the string received.
     public static String randomAnagram(String str) {
