@@ -56,7 +56,7 @@ public class LoanCalc {
         double highBound = loan * Math.pow(1 + rate, n) / n;
         double midFigure;
 
-        while (highBound - lowBound > epsilon) {
+        while ((highBound - lowBound) > epsilon) {
             countIterations++;
             midFigure = (lowBound + highBound) / 2;
             double balance = endBalance(loan, rate, n, midFigure);
@@ -66,6 +66,7 @@ public class LoanCalc {
                 highBound = midFigure;
             }
         }
+		countIterations++;
         return (lowBound + highBound) / 2;
     }
 }
