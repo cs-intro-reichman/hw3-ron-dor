@@ -1,3 +1,5 @@
+import java.util.Random;
+
 /** Functions for checking if a given string is an anagram. */
 public class Anagram {
 	public static void main(String args[]) {
@@ -28,22 +30,46 @@ public class Anagram {
 
 	// Returns true if the two given strings are anagrams, false otherwise.
 	public static boolean isAnagram(String str1, String str2) {
-		// Replace the following statement with your code
-		return false;
+		str1 = preProcess(str1);
+		str2 = preProcess(str2);
+		if (str1.length() != str2.length()) {
+			return false;
+		}
+		int strLength = str1.length();
+		for (int i = 0; i < strLength; i++) {
+			char currentChar = str1.charAt(i);
+			int indexInLatter = str2.indexOf(currentChar);
+			if (indexInLatter == -1) {
+				return false;
+			}
+			str2 = str2.substring(0, indexInLatter) + str2.substring(indexInLatter + 1);
+		}
+		return true;
 	}
 	   
-	// Returns a preprocessed version of the given string: all the letter characters are converted
-	// to lower-case, and all the other characters are deleted, except for spaces, which are left
-	// as is. For example, the string "What? No way!" becomes "whatnoway"
+	// Returns a string with no spaces, no special letters, just characters in lower case.
 	public static String preProcess(String str) {
-		// Replace the following statement with your code
-		return "";
+		String finalString = "";
+		int strLength = str.length();
+		for (int i = 0; i < strLength; i++) {
+			char currentChar = str.charAt(i);
+			if (Character.isLetter(currentChar)) {
+				finalString += Character.toLowerCase(currentChar);
+			}
+		}
+		return finalString;
 	} 
 	   
-	// Returns a random anagram of the given string. The random anagram consists of the same
-	// characters as the given string, re-arranged in a random order. 
-	public static String randomAnagram(String str) {
-		// Replace the following statement with your code
-		return "";
-	}
+    // Returns a random anagram for the string received.
+    public static String randomAnagram(String str) {
+        String finalString = "";
+        String inputString = str;
+        Random generateRandom = new Random();
+        while (!inputString.isEmpty()) {
+            int randomIndex = generateRandom.nextInt(inputString.length());
+            finalString += inputString.charAt(randomIndex);
+            inputString = inputString.substring(0, randomIndex) + inputString.substring(randomIndex + 1);
+        }
+        return finalString;
+    }
 }
